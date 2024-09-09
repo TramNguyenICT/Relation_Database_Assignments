@@ -33,6 +33,7 @@ SELECT co2_consumed FROM game WHERE screen_name = "Ilkka";
 
 ### Question 9
 SELECT DISTINCT co2_budget FROM game;
+
 ![Screenshot 2024-09-09 151614](https://github.com/user-attachments/assets/cb6ae272-45f2-4724-ab7d-9148749d3ae6)
 
 ### Question 10

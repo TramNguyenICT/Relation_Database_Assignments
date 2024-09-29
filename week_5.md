@@ -73,3 +73,20 @@ SELECT name
     -> FROM airport);
 ![Screenshot 2024-09-29 104434](https://github.com/user-attachments/assets/db36b136-da9a-48e6-a32d-c48421738032)
 
+# Exercise 6: Update Queries
+### Question 1
+UPDATE game
+    -> SET location = (
+    -> SELECT ident
+    -> FROM airport
+    -> WHERE name = "Nottingham Airport"),
+    -> co2_consumed = co2_consumed + 500
+    -> WHERE screen_name = "Vesa";
+![Screenshot 2024-09-29 105051](https://github.com/user-attachments/assets/9c60d75f-4865-4bed-9f97-be8c16dc0ad7)
+
+### Question 2
+b. We have to delete data first from goal_reached table.
+### Question 3
+DELETE FROM goal_reached;
+### Question 4
+DELETE FROM goal_reached;

@@ -1,77 +1,88 @@
-# Exercises 3
+# Exercises 4
 ### Question 1
 SELECT country.name as "country name", airport.name as "airport name"
-    -> FROM airport, country
-    -> WHERE country.name = "Iceland"
-    -> AND airport.iso_country = country.iso_country;
-
-![Screenshot 2024-09-09 153747](https://github.com/user-attachments/assets/a9f4adc4-d34f-41ac-8f71-4ba37340e1ad)
+    -> FROM country
+    -> INNER JOIN airport ON airport.iso_country = country.iso_country
+    -> WHERE country.name = "Finland"
+    -> AND scheduled_service = "yes";
+![Screenshot 2024-09-29 084219](https://github.com/user-attachments/assets/a7ce4736-dd91-4ad4-bb3d-7c5766dc506c)
 
 ### Question 2
-SELECT airport.name as "airport name"
-    -> FROM airport, country
-    -> WHERE airport.iso_country = country.iso_country
-    -> AND country.name = "France"
-    -> AND airport.type = "large_airport";
-![Screenshot 2024-09-29 075508](https://github.com/user-attachments/assets/b2a7d7ed-0fd8-400f-855b-9a0eb1748529)
+SELECT screen_name, airport.name
+    -> FROM game
+    -> INNER JOIN airport ON location = ident;
+![Screenshot 2024-09-29 084442](https://github.com/user-attachments/assets/39f362ac-b6af-492b-8f95-4deeb96be2cd)
 
 ### Question 3
-SELECT country.name as country_name, airport.name as airport_name
-    -> FROM airport, country
-    -> WHERE airport.iso_country = country.iso_country
-    -> AND country.continent = "AN";
-![Screenshot 2024-09-29 075655](https://github.com/user-attachments/assets/677b757c-548c-4549-8f5a-edcd1306c50b)
+SELECT screen_name, country.name
+    -> FROM game
+    -> INNER JOIN airport ON location = ident
+    -> INNER JOIN country ON airport.iso_country = country.iso_country;
+![Screenshot 2024-09-29 084830](https://github.com/user-attachments/assets/2d0e133a-5072-4c8a-8612-3f637f8fbe9f)
+
 
 ### Question 4
-SELECT elevation_ft FROM airport, game
-    -> WHERE location = ident
-    -> AND screen_name = "Heini";
-![Screenshot 2024-09-29 075846](https://github.com/user-attachments/assets/d97a126b-a71d-40e3-b643-55599e04630c)
+SELECT airport.name, screen_name
+    -> FROM airport
+    -> LEFT JOIN game ON ident = location
+    -> WHERE name like "%Hels%";
+![Screenshot 2024-09-29 085112](https://github.com/user-attachments/assets/04068570-d1b0-4bba-a79c-828c0bad61e8)
 
 ### Question 5
- SELECT elevation_ft*0.3048 as elevation_m
-    -> FROM airport, game
-    -> WHERE location = ident
-    -> AND screen_name = "Heini";
-![Screenshot 2024-09-29 080026](https://github.com/user-attachments/assets/63a73eb5-bc27-444e-bdaa-c434c21ecd64)
+SELECT name, screen_name
+    -> FROM goal
+    -> LEFT JOIN goal_reached ON goal.id = goal_id
+    -> LEFT JOIN game on game.id = game_id;
+ ![Screenshot 2024-09-29 085241](https://github.com/user-attachments/assets/060124b2-6634-4d32-826e-6cee544bcff2)
 
-### Question 6
-SELECT name FROM airport, game
-    -> WHERE location = ident
-    -> AND screen_name = "Ilkka";
-![Screenshot 2024-09-29 073121](https://github.com/user-attachments/assets/3d3089e4-50c2-43cf-9b82-4cad11a4e6a0)
+# Exercises 5
+### Question 1
+SELECT name
+    -> FROM country
+    -> WHERE iso_country IN(
+    -> SELECT iso_country
+    -> FROM airport
+    -> WHERE name like "Satsuma%");
+![Screenshot 2024-09-29 090929](https://github.com/user-attachments/assets/3f2a1e0c-9f28-4b53-9b06-c911b305b30c)
 
-### Question 7
-SELECT country.name FROM airport, game, country
-    -> WHERE location = ident
-    -> AND airport.iso_country = country.iso_country
-    -> AND screen_name = "Ilkka";
-![Screenshot 2024-09-29 074015](https://github.com/user-attachments/assets/a021a8a1-06b3-4243-8184-0094e03e48dc)
+### Question 2
+SELECT name
+    -> FROM airport
+    -> WHERE iso_country IN(
+    -> SELECT iso_country
+    -> FROM country
+    -> WHERE name = "Monaco");
+![Screenshot 2024-09-29 091426](https://github.com/user-attachments/assets/0b586344-b97b-46dc-b506-15cd117b22fd)
 
-### Question 8
-SELECT country.name FROM airport, game, country
-    -> WHERE location = ident
-    -> AND airport.iso_country = country.iso_country
-    -> AND screen_name = "Ilkka";
-![Screenshot 2024-09-29 082611](https://github.com/user-attachments/assets/eebfadc8-76f7-4d14-872e-5e9235f7b6b2)
+### Question 3
+SELECT screen_name
+    -> FROM game
+    -> WHERE id IN(
+    -> SELECT game_id
+    -> FROM goal_reached
+    -> WHERE goal_id IN(
+    -> SELECT id
+    -> FROM goal
+    -> WHERE name = "CLOUDS"));
+![Screenshot 2024-09-29 091842](https://github.com/user-attachments/assets/16d0445e-71bf-489a-8238-36b5fa0127e1)
 
-### Question 9
-SELECT airport.name
-    -> FROM airport, game, goal, goal_reached
-    -> WHERE ident = location
-    -> AND game.id = game_id
-    -> AND goal.id = goal_id
-    -> AND screen_name = "Ilkka"
-    -> AND goal.name = "CLOUDS";
-![Screenshot 2024-09-29 082914](https://github.com/user-attachments/assets/7888b3cb-969e-4bdf-a2c7-4eb89266e89b)
+### Question 4
+SELECT name
+    -> FROM country
+    -> WHERE iso_country NOT IN(
+    -> SELECT iso_country
+    -> FROM airport);
+![Screenshot 2024-09-29 092309](https://github.com/user-attachments/assets/01145d4b-8353-4866-b2f9-e509ee74e0a6)
 
-### Question 10
-SELECT country.name
-    -> FROM country, airport,game,goal,goal_reached
-    -> WHERE airport.iso_country = country.iso_country
-    -> AND ident = location
-    -> AND game.id = game_id
-    -> AND goal.id = goal_id
-    -> AND screen_name = "Ilkka"
-    -> AND goal.name = "CLOUDS";
-![Screenshot 2024-09-29 083211](https://github.com/user-attachments/assets/96a0d4d5-6dae-4df6-b61a-d010dafcc950)
+### Question 5
+SELECT name
+    -> FROM goal
+    -> WHERE id NOT IN(
+    -> SELECT goal_id
+    -> FROM goal_reached
+    -> WHERE game_id IN(
+    -> SELECT id
+    -> FROM game
+    -> WHERE screen_name = "Heini"));
+![Screenshot 2024-09-29 092640](https://github.com/user-attachments/assets/35e9a4ea-e8e0-4408-9b55-eafe2986587d)
+
